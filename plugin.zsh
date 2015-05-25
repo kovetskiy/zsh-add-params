@@ -1,5 +1,5 @@
 function add-params() {
-    BIN=$(awk {'print $1'} <<< "$BUFFER")
+    BIN=$(awk '{print $1}' <<< "$BUFFER")
     COUNT=$(wc -c <<< "$BIN")
     CURSOR=$COUNT
     # hack for adding yet space before params
