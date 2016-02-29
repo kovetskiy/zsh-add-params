@@ -1,9 +1,12 @@
-function add-params() {
-    BIN=$(awk '{print $1}' <<< "$BUFFER")
-    COUNT=$(wc -c <<< "$BIN")
+add-params() {
+    BIN=${BUFFER%% *}
+    COUNT=$((${#BIN}+1))
     CURSOR=$COUNT
     # hack for adding yet space before params
-    BUFFER[$CURSOR]="  "
+    if [[ $CURSOR -gt 0 ]]
+    then
+      BUFFER[$CURSOR]="  "
+    fi
 }
 
 zle -N add-params
