@@ -5,15 +5,27 @@ add-params() {
     fi
 
     BIN=$BUFFER
-    SHIFT=2 # this one for the extra space
-    if [ $#WORDS -gt 2 ]; then
+    SHIFT=1 # this one for the extra space
+    if [ $#WORDS -gt 2 -a "${BIN%% *}" = "sudo" ]; then
         BIN=${BIN#sudo }
-        SHIFT=$((LEN + 5))
+        SHIFT=6
+
+        if [ $CURSOR -eq $(( $SHIFT - 1 )) ]; then
+            return
+        fi
     fi
 
     BIN=${BIN%% *}
+    if [ $CURSOR -eq $((${#BIN} + ${SHIFT})) ]; then
+        BIN=${BUFFER%% *}
+        SHIFT=1
+        if [ "${BUFFER:$CURSOR-1:2}" = "  " ]; then
+            BUFFER[$CURSOR]=""
+        fi
+    fi
+
     CURSOR=$((${#BIN} + ${SHIFT}))
-    if [[ $CURSOR -gt 0 ]]
+    if [ $CURSOR -gt 0 ]
     then
       BUFFER[$CURSOR]="  "
     fi
