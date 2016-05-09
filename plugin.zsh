@@ -1,4 +1,8 @@
 add-params() {
+    if [ ! "$BUFFER" ]; then
+        BUFFER=$(fc -ln -1)
+    fi
+
     WORDS=(${(z)BUFFER})
     if [ $#WORDS -lt 2 ]; then
         return 1
